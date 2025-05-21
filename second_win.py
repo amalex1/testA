@@ -1,4 +1,4 @@
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTimer, Qtime
 from PyQt5.QtWidgets import (
        QApplication, QWidget,
        QHBoxLayout, QVBoxLayout,
@@ -78,3 +78,17 @@ class TestWin(QWidget):
 
     def connects(self):
        self.btn_next.clicked.connect(self.next_click)
+    def timer_test(self):
+       global time
+       time = time.addSecs(-1)
+       self.text_timer.setText(time.toString("hh:mm:ss"))
+       self.text_timer.setFont(QFont("Times", 36, QFont.Bold))
+       self.text_timer.setStyleSheet("color": rgb(0,0,0))
+       if time.toString("hh:mm:ss")
+       time - QTime(0, 1, 0)
+       self.timer = QTimer()
+       self.timer.timeout.connect(self.timer1Event)
+       self.timer.start(1000)
+    def timer1Event(self):
+    def connects(self):
+       self.btn_test1.clicked.connect(self.timer_test)
