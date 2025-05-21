@@ -1,6 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (
        QApplication, QWidget,
+<<<<<<< HEAD
        QHBoxLayout, QVBoxLayout,
        QGroupBox, QRadioButton,
        QPushButton, QLabel, QListWidget, QLineEdit)
@@ -91,3 +92,15 @@ class TestWin(QWidget):
        self.setWindowTitle(txt_title)
        self.resize(win_width, win_height)
        self.move(win_x, win_y)
+=======
+       QHBoxLayout, QVBoxLayout, QGridLayout,
+       QGroupBox, QRadioButton,
+       QPushButton, QLabel, QListWidget, QLineEdit)
+      
+from instr import *
+
+class FinalWin(QWidget):
+   def __init__(self):
+       ''' окно, в котором проводится опрос '''
+       super().__init__()
+>>>>>>> 4be09dc8b772205858e3190a29fcc3a30c408879

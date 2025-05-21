@@ -7,7 +7,6 @@ from PyQt5.QtWidgets import (
       
 from inst import *
 
-
 class FinalWin(QWidget):
    def __init__(self):
        super().__init__()
