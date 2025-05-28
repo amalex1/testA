@@ -1,4 +1,4 @@
-from PyQt5.QtCore import Qt, QTimer, Qtime
+from PyQt5.QtCore import Qt, QTimer, QTime
 from PyQt5.QtWidgets import (
        QApplication, QWidget,
        QHBoxLayout, QVBoxLayout,
@@ -8,6 +8,14 @@ from PyQt5.QtWidgets import (
 
 from inst import *
 from final_win import *
+from PyQt5.QtGui import QFont
+
+class Experiment():
+   def __init__(self, age, test1, test2, test3):
+      self.age = age
+      self.t1 = test1
+      self.t2 = test2
+      self.t3 = test3
 
 
 class TestWin(QWidget):
@@ -25,12 +33,10 @@ class TestWin(QWidget):
        self.move(win_x, win_y)
 
     def initUI(self):
-
        self.btn_next = QPushButton(txt_sendresults, self)
        self.btn_test1 = QPushButton(txt_starttest1, self)
        self.btn_test2 = QPushButton(txt_starttest2, self)
        self.btn_test3 = QPushButton(txt_starttest3, self)
-
 
        self.text_name = QLabel(txt_name)
        self.text_age = QLabel(txt_age)
@@ -39,12 +45,16 @@ class TestWin(QWidget):
        self.text_test3 = QLabel(txt_test3)
        self.text_timer = QLabel(txt_timer)
 
-
-       self.line_name = QLineEdit(txt_hintname)
-       self.line_age = QLineEdit(txt_hintage)
-       self.line_test1 = QLineEdit(txt_hinttest1)
-       self.line_test2 = QLineEdit(txt_hinttest2)
-       self.line_test3 = QLineEdit(txt_hinttest3)
+       self.line_name = QLineEdit()
+       self.line_name.setPlaceholderText(txt_hintname)
+       self.line_age = QLineEdit()
+       self.line_age.setPlaceholderText(txt_hintage)
+       self.line_test1 = QLineEdit()
+       self.line_test1.setPlaceholderText(txt_hinttest1)
+       self.line_test2 = QLineEdit()
+       self.line_test2.setPlaceholderText(txt_hinttest2)
+       self.line_test3 = QLineEdit()
+       self.line_test3.setPlaceholderText(txt_hinttest3)
 
        self.l_line = QVBoxLayout()
        self.r_line = QVBoxLayout()
@@ -74,21 +84,76 @@ class TestWin(QWidget):
   
     def next_click(self):
        self.hide()
-       self.fw = FinalWin()
+       self.exp = Experiment(int(self.line_age.text()),self.line_test1.text(),self.line_test2.text(),self.line_test3.text())
+       self.fw = FinalWin(self.exp)
 
-    def connects(self):
-       self.btn_next.clicked.connect(self.next_click)
     def timer_test(self):
        global time
-       time = time.addSecs(-1)
-       self.text_timer.setText(time.toString("hh:mm:ss"))
-       self.text_timer.setFont(QFont("Times", 36, QFont.Bold))
-       self.text_timer.setStyleSheet("color": rgb(0,0,0))
-       if time.toString("hh:mm:ss")
-       time - QTime(0, 1, 0)
+       time = QTime(0, 0, 16) 
        self.timer = QTimer()
        self.timer.timeout.connect(self.timer1Event)
        self.timer.start(1000)
     def timer1Event(self):
+       global time
+       time = time.addSecs(-1)
+       self.text_timer.setText(time.toString("hh:mm:ss"))
+       self.text_timer.setFont(QFont("Times", 36, QFont.Bold))
+       self.text_timer.setStyleSheet("color: rgb(0,0,0)")
+       if time.toString("hh:mm:ss") == "00:00:00":
+          self.timer.stop()
+    def timer_sits(self):
+       global time
+       time = QTime(0, 0, 31) 
+       self.timer = QTimer()
+       self.timer.timeout.connect(self.timer2Event)
+       self.timer.start(1500)
+      # Тоже самое что и для 1 таймера timer_test, но 
+      # одна строка изменена time = QTime(0, 0, 31)
+      # другая строка self.timer.start(1500)
+      # смотри слайд 32
+
+    def timer2Event(self):
+       global time
+       time = time.addSecs(-1)
+       self.text_timer.setText(time.toString("hh:mm:ss")[6:8])
+       self.text_timer.setFont(QFont("Times", 36, QFont.Bold))
+       self.text_timer.setStyleSheet("color: rgb(0,0,0)")
+       if time.toString("hh:mm:ss") == "00:00:00":
+          self.timer.stop()
+      # Тоже самое что и для 1 таймера timer1Event, но 
+      # одна строка изменена self.text_timer.setText(time.toString("hh:mm:ss")[6:8])
+      # смотри слайд 33
+    def timer_final(self):
+       global time
+       time = QTime(0, 1, 1) 
+       self.timer = QTimer()
+       self.timer.timeout.connect(self.timer3Event)
+       self.timer.start(1000)
+      # Тоже самое что и для 1 таймера timer_test, но 
+      # одна строка изменена time = QTime(0, 1, 1)
+      # смотри слайд 34
+
+
+    def timer3Event(self):
+       global time
+       time = time.addSecs(-1)
+       self.text_timer.setText(time.toString("hh:mm:ss"))
+       if int(time.toString("hh:mm:ss")[6:8]) >= 45:
+          self.text_timer.setStyleSheet("color: rgb(0,255,0)")
+       elif int(time.toString("hh:mm:ss")[6:8]) >= 15:
+          self.text_timer.setStyleSheet("color: rgb(0,255,0)")
+       else:
+          self.text_timer.setStyleSheet("color: rgb(0,0,0)")
+       self.text_timer.setFont(QFont("Times", 36, QFont.Bold))
+       if time.toString("hh:mm:ss") == "00:00:00":
+          self.timer.stop()
+      # Тоже самое что и для 1 таймера timer1Event, но
+      # между строками self.text_timer.setText(time.toString("hh:mm:ss")) 
+      # и этой self.text_timer.setFont(QFont("Times", 36, QFont.Bold)) 
+      # вставить то, что написано в слайде 38
+
     def connects(self):
        self.btn_test1.clicked.connect(self.timer_test)
+       self.btn_test2.clicked.connect(self.timer_sits)
+       self.btn_test3.clicked.connect(self.timer_final)
+       self.btn_next.clicked.connect(self.next_click)
